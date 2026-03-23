@@ -1,228 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharma Student Platform</title>
-    <style>
-        :root {
-            --purple: #6A0DAD;
-            --pink: #FF6F91;
-            --darker-pink: #FF4E6D;
-            --background: #f9f9f9;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: var(--background);
-        }
-        header {
-            background: var(--purple);
-            color: white;
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        nav a {
-            color: white;
-            margin: 0 1rem;
-            text-decoration: none;
-            font-weight: 500;
-            transition: text-decoration .2s;
-        }
-        nav a:hover, nav a:focus {
-            text-decoration: underline;
-        }
-        .hero {
-            background: linear-gradient(to right, var(--purple), var(--pink));
-            color: white;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            margin: 20px 0 30px 0;
-        }
-        .button {
-            background: var(--pink);
-            color: white;
-            padding: 10px 24px;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-        .button:hover, .button:focus {
-            background: var(--darker-pink);
-        }
-        main {
-            max-width: 1100px;
-            margin: auto;
-            padding: 0 15px;
-        }
-        .section {
-            padding: 32px 0;
-        }
-        .section h2 {
-            text-align: center;
-        }
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            justify-content: center;
-        }
-        .card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            min-width: 200px;
-            max-width: 275px;
-            margin: 10px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.09);
-            text-align: center;
-            flex: 1 1 220px;
-        }
-        .upload-section input[type="file"] {
-            display: block;
-            margin: 10px auto 15px auto;
-        }
-        form {
-            margin-top: 15px;
-            text-align: left;
-            max-width: 350px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        label {
-            font-weight: 500;
-            margin-top: 10px;
-            display: block;
-        }
-        input[type="text"],
-        input[type="email"],
-        textarea {
-            width: 100%;
-            padding: 7px 10px;
-            margin: 6px 0 14px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-            box-sizing: border-box;
-            resize: vertical;
-        }
-        textarea {
-            min-height: 70px;
-            font-family: inherit;
-        }
-        footer {
-            background: var(--purple);
-            color: white;
-            text-align: center;
-            padding: 18px 0;
-            font-size: 1rem;
-            margin-top: 30px;
-        }
-        @media (max-width: 800px) {
-            .card-container {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-        @media (max-width: 600px) {
-            .hero h1 {
-                font-size: 1.5rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pharma Notes Hub</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #6A0DAD, #FF6F91);
+}
+
+/* HEADER */
+header {
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+/* GLASS CARD */
+.glass {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 15px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+/* INPUT */
+input {
+    width: 90%;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    margin: 10px 0;
+}
+
+/* BUTTON */
+.button {
+    background: #FF6F91;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+/* NAV */
+nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 10px;
+    color: white;
+}
+
+/* TOAST */
+#toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: black;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: none;
+}
+</style>
 </head>
+
 <body>
-    <header>
-        <nav aria-label="Main navigation">
-            <div><h2 style="margin:0;font-size:1.4rem;">Pharma Platform</h2></div>
-            <div>
-                <a href="#notes">Notes</a>
-                <a href="#pyqs">PYQs</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </div>
-        </nav>
-    </header>
 
-    <div class="hero">
-        <h1>Pharma Notes &amp; Previous Year Questions</h1>
-        <p>Simple and easy study material for pharmacy students</p>
-        <button class="button" type="button" onclick="document.getElementById('notes').scrollIntoView({behavior:'smooth'})">
-            Explore Notes
-        </button>
-    </div>
+<header>
+<h2>💊 Pharma Notes Hub</h2>
+<p>Study Smart. Score Better.</p>
+</header>
 
-    <main>
-        <section id="notes" class="section">
-            <h2>Notes Categories</h2>
-            <div class="card-container">
-                <div class="card"><h3>Pharmacology</h3></div>
-                <div class="card"><h3>Medicinal Chemistry</h3></div>
-                <div class="card"><h3>Pharmaceutics</h3></div>
-                <div class="card"><h3>Pharmacognosy</h3></div>
-            </div>
-        </section>
+<!-- NOTES -->
+<div class="glass">
+<h3>📚 Notes</h3>
+<div id="notesContainer"></div>
+</div>
 
-        <section id="pyqs" class="section">
-            <h2>Previous Year Questions (PYQs)</h2>
-            <div class="card-container">
-                <div class="card"><h3>2023</h3></div>
-                <div class="card"><h3>2022</h3></div>
-                <div class="card"><h3>2021</h3></div>
-            </div>
-        </section>
+<!-- ADMIN -->
+<div class="glass">
+<h3>📝 Add Notes (Admin)</h3>
+<input id="title" placeholder="Note Title">
+<input id="link" placeholder="Paste PDF/Drive Link">
+<button class="button" onclick="addNote()">Add Note</button>
+</div>
 
-        <section id="upload" class="section upload-section">
-            <h2>Upload Notes</h2>
-            <div class="card">
-                <h3>Contribute Your Notes</h3>
-                <input type="file" id="noteFile" aria-label="Choose notes file to upload"/>
-                <button class="button" type="button" onclick="alert('Upload feature coming soon!')">Upload</button>
-            </div>
-        </section>
+<!-- TOAST -->
+<div id="toast">Added!</div>
 
-        <section id="about" class="section">
-            <h2>About</h2>
-            <p style="max-width:600px;margin:auto;">I am a pharmacy student sharing my notes and study materials to help fellow students succeed. This platform offers organized content and previous year questions for your convenience.</p>
-        </section>
+<!-- NAV -->
+<nav>
+<span onclick="loadNotes()">🏠 Home</span>
+<span>📚 Notes</span>
+<span>👤 Profile</span>
+</nav>
 
-        <section id="contact" class="section">
-            <h2>Contact</h2>
-            <p style="text-align:center;">Email: <a href="mailto:rajputsweta00123123@gmail.com">rajputsweta00123123@gmail.com</a></p>
-            <form aria-label="Contact form" autocomplete="off" onsubmit="event.preventDefault(); alert('Message sent!'); this.reset();">
-                <label for="name">Name</label>
-                <input id="name" name="name" type="text" placeholder="Your name" required />
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="Your email" required />
-                <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="Your message" required></textarea>
-                <button type="submit" class="button">Send</button>
-            </form>
-        </section>
-    </main>
+<script>
 
-    <footer>
-        <p>© 2026 Pharma Student Platform. Made by Sweta Singh</p>
-    </footer>
+/* TEMP STORAGE (works without Firebase) */
+let notes = [];
+
+/* TOAST */
+function showToast(msg) {
+    let toast = document.getElementById("toast");
+    toast.innerText = msg;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 2000);
+}
+
+/* ADD NOTE */
+function addNote() {
+    let title = document.getElementById("title").value;
+    let link = document.getElementById("link").value;
+
+    if(title === "" || link === "") {
+        showToast("Fill all fields!");
+        return;
+    }
+
+    notes.push({title, link});
+    showToast("Note Added!");
+    loadNotes();
+}
+
+/* LOAD NOTES */
+function loadNotes() {
+    let container = document.getElementById("notesContainer");
+    container.innerHTML = "";
+
+    notes.forEach(note => {
+        let div = document.createElement("div");
+        div.className = "glass";
+        div.innerHTML = `
+            <h4>${note.title}</h4>
+            <a href="${note.link}" target="_blank">
+            <button class="button">Open</button></a>
+        `;
+        container.appendChild(div);
+    });
+}
+
+/* AUTO LOAD */
+loadNotes();
+
+</script>
+
 </body>
 </html>
